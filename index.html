@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FZ NX — Enterprise Cloud Infrastructure & Digital Distribution</title>
+  <meta name="description" content="Infrastruktur server berkinerja tinggi: Panel Pterodactyl, Cloud VPS KVM, Windows RDP, Nomor Kosong OTP, dan Lisensi Digital Premium.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Scroll Progress Indicator -->
+  <div id="scroll-progress"></div>
+
+  <!-- Teleportation Aura Canvas -->
+  <canvas id="teleport-canvas"></canvas>
+
+  <!-- Global Toast Notification -->
+  <div id="toast" role="alert" aria-live="polite">Notifikasi</div>
+
+  <!-- 1. Kernel Bootloader Preloader -->
+  <aside id="preloader" aria-label="Loading Screen">
+    <div class="loader-brand">FZ <span>NX</span></div>
+    <div class="loader-terminal">
+      <div class="terminal-header">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span class="terminal-title">KERNEL-BOOT v2.6.4</span>
+      </div>
+      <div class="terminal-log" id="terminal-log">
+        <div>[SYS] Inisialisasi kernel micro-engine...</div>
+      </div>
+      <div class="loader-bar-wrap">
+        <div class="loader-bar" id="loader-bar"></div>
+      </div>
+      <div class="loader-meta">
+        <span id="loader-status">Sinkronisasi socket node...</span>
+        <span id="loader-percent">0%</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Top Sticky Header -->
+  <header id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        FZ NX <span class="logo-badge">ENTERPRISE</span>
+      </a>
+      <nav aria-label="Menu Utama">
+        <ul class="nav-links">
+          <li><a href="#infra">Infrastruktur</a></li>
+          <li><a href="#katalog">Katalog Unit</a></li>
+          <li><a href="#looking-glass">Looking Glass</a></li>
+          <li><a href="#terminal-section">Ptero Console</a></li>
+          <li><a href="#cli-builder">CLI Builder</a></li>
+          <li><a href="#kalkulator">Kalkulator</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="currency-toggle" id="currency-toggle" title="Ubah Mata Uang">IDR (Rp)</button>
+        <a href="https://wa.me/6281234567890?text=Halo%20Admin%20FZ%20NX,%20saya%20ingin%20konsultasi%20layanan" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+          Hubungi Engineer
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. Hero Section & Realistic 3D Globe -->
+    <section class="hero-section" id="infra">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span> TIER-3 ASIA & GLOBAL EDGE
+        </div>
+        <h1 class="hero-title">
+          Infrastruktur Server & Distribusi <span>Digital Berdaya Tinggi.</span>
+        </h1>
+        <p class="hero-desc">
+          Penyedia resmi isolasi container Pterodactyl Eggs, Virtual Private Server (KVM), Remote Desktop berlatensi rendah, serta gerbang produk virtual OTP & lisensi aplikasi premium bergaransi operasional penuh.
+        </p>
+        <div class="hero-cta">
+          <a href="#katalog" class="btn btn-primary">Buka Katalog Unit</a>
+          <a href="#looking-glass" class="btn btn-secondary">Test Latensi Edge</a>
+          <a href="#terminal-section" class="btn btn-outline">Cek Console Node</a>
+        </div>
+      </div>
+
+      <!-- Realistic 3D Earth Globe Card -->
+      <div class="globe-card teleport-scroll">
+        <div id="globe-canvas"></div>
+        <div class="globe-hud">
+          <div class="globe-nodes" role="tablist" aria-label="Pilihan Node Wilayah">
+            <button class="node-btn active" data-city="jkt">JKT</button>
+            <button class="node-btn" data-city="sin">SIN</button>
+            <button class="node-btn" data-city="tyo">TYO</button>
+            <button class="node-btn" data-city="fra">FRA</button>
+            <button class="node-btn" data-city="usa">USA</button>
+          </div>
+          <div id="hud-ping">Status: Node JKT-01 (12ms) Online</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Telemetry SLA Strip -->
+    <section class="status-strip teleport-scroll" aria-label="Status Telemetri Sistem">
+      <div class="telemetry-card">
+        <div class="telemetry-icon">⚡</div>
+        <div>
+          <div class="telemetry-label">Network Uptime</div>
+          <div class="telemetry-value">99.98% SLA</div>
+        </div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-icon">🛡️</div>
+        <div>
+          <div class="telemetry-label">DDoS Mitigation</div>
+          <div class="telemetry-value">Up to 3.2 Tbps</div>
+        </div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-icon">⏱️</div>
+        <div>
+          <div class="telemetry-label">Avg Deploy Time</div>
+          <div class="telemetry-value">&lt; 45 Detik</div>
+        </div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-icon">🌐</div>
+        <div>
+          <div class="telemetry-label">Active Global Nodes</div>
+          <div class="telemetry-value">5 Lokasi Inti</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Live Pterodactyl Terminal Simulator -->
+    <section class="section-container" id="terminal-section">
+      <div class="section-head teleport-scroll">
+        <span class="section-tag">HOST RUNTIME TELEMETRY</span>
+        <h2 class="section-title">Live Pterodactyl Daemon & Node Console</h2>
+        <p class="section-subtitle">Simulasi langsung interaksi konsol Wings Daemon, alokasi KVM cgroups v2, dan pemantauan resource host real-time.</p>
+      </div>
+
+      <div class="hud-panel teleport-scroll">
+        <div class="terminal-interactive">
+          <div class="terminal-topbar">
+            <span>root@node-jkt01.fznx.net: /srv/daemon#</span>
+            <span style="color:var(--emerald);">WINGS SOCKET CONNECTED</span>
+          </div>
+          <div class="terminal-screen" id="ptero-screen"></div>
+          <div class="terminal-input-row">
+            <span class="terminal-prompt-user">admin@fznx</span>
+            <span class="terminal-prompt-symbol">:~$</span>
+            <input type="text" class="terminal-cli-input" id="ptero-cli-input" placeholder="Ketik 'help' untuk daftar perintah (status, stats, docker ps, ping)..." autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Catalog Section & Instant Search -->
+    <section class="section-container" id="katalog">
+      <div class="section-head teleport-scroll">
+        <span class="section-tag">KATALOG LAYANAN & UNIT</span>
+        <h2 class="section-title">Solusi Cloud & Produk Digital FZ NX</h2>
+        <p class="section-subtitle">Semua resource dialokasikan secara independen dengan garansi uptime 99.98% dan proteksi isolasi penuh.</p>
+      </div>
+
+      <div class="catalog-toolbar teleport-scroll">
+        <div class="filter-tabs" role="tablist">
+          <button class="tab-btn active" data-filter="all">Semua Unit</button>
+          <button class="tab-btn" data-filter="ptero">Panel Pterodactyl</button>
+          <button class="tab-btn" data-filter="vps">Cloud VPS (KVM)</button>
+          <button class="tab-btn" data-filter="rdp">Windows RDP</button>
+          <button class="tab-btn" data-filter="otp">Nomor Kosong OTP</button>
+          <button class="tab-btn" data-filter="apk">APK & Lisensi Premium</button>
+        </div>
+        <input type="text" id="catalog-search" class="search-box" placeholder="Cari nama layanan, bot, OS..." aria-label="Cari Produk">
+      </div>
+
+      <div class="product-grid" id="product-grid">
+
+        <!-- Card: Panel Pterodactyl -->
+        <article class="product-card teleport-scroll" data-category="ptero" data-search="pterodactyl wings bot discord sa:mp minecraft egg java node python">
+          <div class="product-image">
+            <div class="ptero-preview">
+              <div class="ptero-header">
+                <span>pterodactyl@node-id-01:~$</span>
+                <span style="color:var(--emerald);">RUNNING</span>
+              </div>
+              <div class="ptero-stats">
+                <div class="stat-box">
+                  <div class="stat-label">CPU LOAD</div>
+                  <div class="stat-val">14.8%</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">MEMORY</div>
+                  <div class="stat-val">2.8 / 8 GB</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">DISK I/O</div>
+                  <div class="stat-val">48 MB/s</div>
+                </div>
+              </div>
+              <div class="ptero-console">
+                [Wings] Container minecraft-srv-01 synchronized via Docker daemon socket.
+              </div>
+            </div>
+          </div>
+          <div class="product-body">
+            <span class="product-badge">PTERODACTYL WINGS</span>
+            <h3 class="product-title">Panel Server Game & Bot</h3>
+            <p class="product-desc">Panel Pterodactyl siap pakai untuk Minecraft, SA:MP, Discord bot Node.js, dan Python runtime dengan proteksi DDoS otomatis.</p>
+            <ul class="product-specs">
+              <li>Dukungan Node.js, Python, Java 17/21 Eggs</li>
+              <li>Backup harian otomatis & File Manager web</li>
+              <li>Subdomain gratis & alokasi port khusus</li>
+            </ul>
+            <div class="product-footer">
+              <div class="price-tag">
+                <span class="price-caption">Mulai dari</span>
+                <span class="price-val" data-base-idr="15000">Rp 15.000<small>/bln</small></span>
+              </div>
+              <button class="btn btn-primary order-btn" data-item="Panel Pterodactyl" data-price="15000">Pesan Unit</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card: Cloud VPS KVM -->
+        <article class="product-card teleport-scroll" data-category="vps" data-search="cloud vps kvm ubuntu debian root ssh linux server nvme unmetered">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="Cloud VPS Server Rack">
+          </div>
+          <div class="product-body">
+            <span class="product-badge">KVM VIRTUALIZATION</span>
+            <h3 class="product-title">Enterprise Cloud VPS</h3>
+            <p class="product-desc">Virtual Server mandiri dengan akses root penuh, port uplink 1 Gbps unmetered, dan penyimpanan SSD NVMe berkecepatan tinggi.</p>
+            <ul class="product-specs">
+              <li>OS Bebas: Ubuntu, Debian, CentOS, AlmaLinux</li>
+              <li>Akses Root / SSH instan & Dedicated IPv4</li>
+              <li>Garansi isolasi resource cgroups v2</li>
+            </ul>
+            <div class="product-footer">
+              <div class="price-tag">
+                <span class="price-caption">Mulai dari</span>
+                <span class="price-val" data-base-idr="45000">Rp 45.000<small>/bln</small></span>
+              </div>
+              <button class="btn btn-primary order-btn" data-item="Enterprise Cloud VPS" data-price="45000">Pesan Unit</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card: Windows RDP -->
+        <article class="product-card teleport-scroll" data-category="rdp" data-search="windows rdp remote desktop 2019 2022 botting download masif upload administrator">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80" alt="Remote Desktop Windows Environment">
+          </div>
+          <div class="product-body">
+            <span class="product-badge">HIGH-SPEED RDP</span>
+            <h3 class="product-title">Windows Server RDP</h3>
+            <p class="product-desc">Akses Remote Desktop Windows Server 2019/2022 dengan kecepatan internet hingga 2.5 Gbps untuk botting, rendering, dan download masif.</p>
+            <ul class="product-specs">
+              <li>Kecepatan download/upload up to 1000+ Mbps</li>
+              <li>Online terus menerus 24/7 tanpa putus</li>
+              <li>Akses Administrator penuh tanpa batasan</li>
+            </ul>
+            <div class="product-footer">
+              <div class="price-tag">
+                <span class="price-caption">Mulai dari</span>
+                <span class="price-val" data-base-idr="60000">Rp 60.000<small>/bln</small></span>
+              </div>
+              <button class="btn btn-primary order-btn" data-item="Windows Server RDP" data-price="60000">Pesan Unit</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card: Nomor Kosong OTP -->
+        <article class="product-card teleport-scroll" data-category="otp" data-search="nokos nomor kosong otp virtual sms whatsapp telegram tiktok verifikasi">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80" alt="Virtual SMS Authentication">
+          </div>
+          <div class="product-body">
+            <span class="product-badge">VIRTUAL NUMBERS</span>
+            <h3 class="product-title">Nomor Kosong (Nokos) OTP</h3>
+            <p class="product-desc">Layanan penerimaan verifikasi SMS OTP instan untuk registrasi akun WhatsApp, Telegram, Google, TikTok, dan marketplace.</p>
+            <ul class="product-specs">
+              <li>Tersedia nomor Indonesia, US, UK, dan 50+ negara</li>
+              <li>Kode OTP diterima cepat dalam 1-5 detik</li>
+              <li>Garansi replace jika kode verifikasi tidak masuk</li>
+            </ul>
+            <div class="product-footer">
+              <div class="price-tag">
+                <span class="price-caption">Mulai dari</span>
+                <span class="price-val" data-base-idr="3500">Rp 3.500<small>/sms</small></span>
+              </div>
+              <button class="btn btn-primary order-btn" data-item="Nomor Kosong OTP" data-price="3500">Pesan Unit</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card: APK & Lisensi Premium -->
+        <article class="product-card teleport-scroll" data-category="apk" data-search="apk akun premium spotify netflix canva youtube streaming berlangganan legal">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Digital Media and Software License">
+          </div>
+          <div class="product-body">
+            <span class="product-badge">DIGITAL LICENSES</span>
+            <h3 class="product-title">APK & Akun Premium</h3>
+            <p class="product-desc">Aktivasi akun streaming dan lisensi aplikasi produktivitas legal bergaransi penuh (Spotify, Netflix UHD, Canva Pro, YouTube Premium).</p>
+            <ul class="product-specs">
+              <li>Private profile & full garansi durasi langganan</li>
+              <li>Bebas iklan tanpa root pada smartphone Android</li>
+              <li>Proses kilat dalam 5-10 menit setelah bayar</li>
+            </ul>
+            <div class="product-footer">
+              <div class="price-tag">
+                <span class="price-caption">Mulai dari</span>
+                <span class="price-val" data-base-idr="10000">Rp 10.000<small>/item</small></span>
+              </div>
+              <button class="btn btn-primary order-btn" data-item="APK & Lisensi Premium" data-price="10000">Pesan Unit</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 6. Looking Glass / Network Latency Tester -->
+    <section class="section-container" id="looking-glass">
+      <div class="section-head teleport-scroll">
+        <span class="section-tag">NETWORK TELEMETRY</span>
+        <h2 class="section-title">FZ NX Live Looking Glass</h2>
+        <p class="section-subtitle">Uji latensi real-time, throughput bandwidth, dan route hop dari datacenter edge FZ NX.</p>
+      </div>
+
+      <div class="looking-glass-card teleport-scroll">
+        <div class="lg-controls">
+          <div class="input-group">
+            <label for="lg-node">PILIH EDGE LOCATION</label>
+            <select class="form-select" id="lg-node">
+              <option value="jkt">Jakarta, ID (IDC Duren Tiga / Equinix JK1)</option>
+              <option value="sin">Singapore (Equinix SG1 / Telin-3)</option>
+              <option value="tyo">Tokyo, JP (Equinix TY2)</option>
+              <option value="fra">Frankfurt, DE (Equinix FR2)</option>
+              <option value="usa">Virginia, US (Equinix DC2)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="lg-test-type">TIPE PENGUJIAN</label>
+            <select class="form-select" id="lg-test-type">
+              <option value="ping">ICMP Ping (Packet Roundtrip)</option>
+              <option value="traceroute">Traceroute (BGP Hop Analysis)</option>
+              <option value="speed">Throughput Speed Test (100MB chunk)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="lg-target">TARGET HOST / IP ADDRESS</label>
+            <input type="text" class="form-input" id="lg-target" value="1.1.1.1">
+          </div>
+
+          <button class="btn btn-primary" id="btn-run-lg">Jalankan Diagnostik</button>
+        </div>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <span class="terminal-title">EDGE CONSOLE DIAGNOSTIC ROUTE</span>
+          </div>
+          <div class="terminal-out" id="lg-terminal">Ready. Klik "Jalankan Diagnostik" untuk memulai pengujian rute.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Pterodactyl & Docker CLI Generator -->
+    <section class="section-container" id="cli-builder">
+      <div class="section-head teleport-scroll">
+        <span class="section-tag">DEVELOPER TOOLKIT</span>
+        <h2 class="section-title">One-Click Docker & Daemon Script Builder</h2>
+        <p class="section-subtitle">Salin perintah eksekusi kontainer instan untuk deployment bot atau aplikasi Anda di node FZ NX.</p>
+      </div>
+
+      <div class="cli-generator teleport-scroll">
+        <div class="cli-tabs">
+          <button class="tab-btn active cli-preset-btn" data-preset="discord">Discord.js Bot</button>
+          <button class="tab-btn cli-preset-btn" data-preset="python">Python FastAPI</button>
+          <button class="tab-btn cli-preset-btn" data-preset="minecraft">Minecraft PaperMC</button>
+          <button class="tab-btn cli-preset-btn" data-preset="wings">Wings Daemon Setup</button>
+        </div>
+        <div class="cli-box">
+          <span id="cli-code-text">docker run -d --name bot-discord --restart unless-stopped -v /home/data:/app node:20-alpine npm start</span>
+          <button class="btn btn-secondary btn-sm" id="btn-copy-cli">Salin Perintah</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Interactive Resource Calculator -->
+    <section class="section-container" id="kalkulator">
+      <div class="calc-card teleport-scroll">
+        <div>
+          <span class="section-tag">SIMULASI ESTIMASI</span>
+          <h2 style="font-size: 1.75rem; font-weight: 700; margin: 0.5rem 0 1.5rem;">Kalkulator Kustom Server FZ NX</h2>
+          
+          <div class="calc-slider-group">
+            <div class="calc-slider-head">
+              <span>Alokasi Memori (RAM)</span>
+              <strong id="val-ram" style="color:var(--blue-light);">4 GB</strong>
+            </div>
+            <input type="range" id="input-ram" min="1" max="32" value="4" aria-label="Alokasi RAM">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-head">
+              <span>Komputasi Virtual (vCPU)</span>
+              <strong id="val-cpu" style="color:var(--blue-light);">2 Core</strong>
+            </div>
+            <input type="range" id="input-cpu" min="1" max="8" value="2" aria-label="Alokasi CPU">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-head">
+              <span>Arsitektur Layanan</span>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="tab-btn active type-btn" data-type="ptero">Pterodactyl Node</button>
+              <button class="tab-btn type-btn" data-type="vps">KVM Cloud VPS</button>
+              <button class="tab-btn type-btn" data-type="rdp">Windows RDP</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-summary-box">
+          <div class="calc-summary-label">ESTIMASI INVESTASI BULANAN</div>
+          <div id="calc-total" class="calc-total-val">Rp 65.000</div>
+          <div style="display: flex; gap: 0.75rem; flex-direction: column;">
+            <button id="calc-order-btn" class="btn btn-primary" style="width:100%;">Order via WhatsApp</button>
+            <button id="calc-invoice-btn" class="btn btn-secondary" style="width:100%;">Buat Quotation Resmi</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. FAQ Accordion -->
+    <section class="section-container" id="faq">
+      <div class="section-head teleport-scroll">
+        <span class="section-tag">PERTANYAAN UMUM</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Jawaban seputar setup, uptime SLA, jaminan garansi, dan metode pembayaran.</p>
+      </div>
+
+      <div class="faq-grid teleport-scroll">
+        <div class="faq-item">
+          <div class="faq-q">Berapa lama waktu aktivasi setelah pembayaran? <span>+</span></div>
+          <div class="faq-a">Untuk Panel Pterodactyl dan VPS KVM dengan OS standar diaktifkan secara instan &lt; 2 menit. RDP dan akun premium membutuhkan waktu verifikasi manual sekitar 5-10 menit.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Apakah tersedia garansi jika nomor OTP atau akun bermasalah? <span>+</span></div>
+          <div class="faq-a">Ya. Nomor kosong OTP bergaransi replace langsung jika SMS tidak masuk dalam 5 menit. Akun premium bergaransi full duration selama masa aktif langganan.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Apakah bisa upgrade RAM dan CPU di kemudian hari? <span>+</span></div>
+          <div class="faq-a">Bisa kapan saja secara seamless. Disk dan data kontainer Pterodactyl atau VPS Anda tidak akan terhapus saat proses scaling resource.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Metode pembayaran apa saja yang didukung? <span>+</span></div>
+          <div class="faq-a">Kami mendukung QRIS (BCA, Mandiri, Dana, OVO, Gopay), Transfer Bank Virtual Account, Crypto (USDT TRC20), dan PayPal.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 10. Invoice / Quotation Modal -->
+  <aside class="modal-overlay" id="invoice-modal" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close-btn" aria-label="Tutup Modal">&times;</button>
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">FZ NX OFFICIAL QUOTATION</div>
+          <div class="modal-ref" id="inv-ref">REF: FZNX-2026-0000</div>
+        </div>
+        <span class="product-badge">SLA VERIFIED</span>
+      </div>
+      <div class="modal-body-list">
+        <div class="modal-row">
+          <span>Item / Layanan:</span>
+          <strong style="color:#fff;" id="inv-item">-</strong>
+        </div>
+        <div class="modal-row">
+          <span>Spesifikasi / Alokasi:</span>
+          <strong style="color:#fff;" id="inv-specs">-</strong>
+        </div>
+        <div class="modal-row">
+          <span>SLA & Proteksi:</span>
+          <strong style="color:var(--emerald);">Tier-3 99.98% + DDoS Shield</strong>
+        </div>
+        <div class="modal-row-total">
+          <span style="font-weight:700; color:#fff;">Total Nilai:</span>
+          <strong class="modal-total-num" id="inv-total">-</strong>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="inv-wa-btn" style="flex:1;">Lanjutkan Order ke CS</button>
+        <button class="btn btn-secondary" id="inv-copy-btn" style="flex:1;">Salin Ringkasan</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">FZ NX</div>
+        <p>Infrastruktur Awan Presisi & Distribusi Akun Digital Bergaransi.</p>
+      </div>
+      <div>
+        © 2026 FZ NX. All system nodes operational.
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
