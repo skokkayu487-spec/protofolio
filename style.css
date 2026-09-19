@@ -1,0 +1,1374 @@
+/* ==========================================================================
+   FZ NX ENTERPRISE CLOUD INFRASTRUCTURE & DIGITAL DISTRIBUTION
+   STYLESHEET: style.css (Production Grade)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS & CSS VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  /* Palette: Dark Corporate Slate & Tech Blue */
+  --bg-deep: #06080d;
+  --bg-surface: #0c101a;
+  --bg-card: #121826;
+  --bg-card-hover: #172033;
+  --bg-terminal: #05070b;
+  --bg-terminal-bar: #0d121c;
+
+  /* Borders & Hairlines */
+  --slate-border: #1e293b;
+  --slate-border-light: #334155;
+  --slate-border-glow: rgba(56, 189, 248, 0.25);
+
+  /* Accents & Brand Status */
+  --blue-accent: #2563eb;
+  --blue-accent-hover: #1d4ed8;
+  --blue-light: #38bdf8;
+  --blue-glow: rgba(56, 189, 248, 0.35);
+  --emerald: #10b981;
+  --emerald-glow: rgba(16, 185, 129, 0.3);
+  --warning: #eab308;
+  --danger: #ef4444;
+
+  /* Typography */
+  --text-white: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+
+  /* Elevation & Geometry */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.25);
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET & BASE ELEMENTS
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-white);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--blue-accent);
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   3. SCROLL PROGRESS & TELEPORT PARTICLES CANVAS
+   -------------------------------------------------------------------------- */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue-accent), var(--blue-light));
+  width: 0%;
+  z-index: 2000;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+  transition: width 0.08s linear;
+}
+
+#teleport-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+}
+
+/* Teleportation Scroll Reveal Animation */
+.teleport-scroll {
+  opacity: 0;
+  transform: translateY(50px) scale(0.97);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  will-change: transform, opacity, filter;
+}
+
+.teleport-scroll.teleported {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.teleport-scroll::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.8), rgba(37, 99, 235, 0.2), transparent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.6s ease;
+}
+
+.teleport-scroll.teleporting::after {
+  animation: teleportFlash 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes teleportFlash {
+  0% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. KERNEL BOOTLOADER PRELOADER
+   -------------------------------------------------------------------------- */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-deep);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+}
+
+#preloader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-brand {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loader-brand span {
+  color: var(--blue-light);
+}
+
+.loader-terminal {
+  width: min(90%, 460px);
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  font-family: var(--font-code);
+  font-size: 0.82rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--slate-border);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot-red { background: var(--danger); }
+.dot-yellow { background: var(--warning); }
+.dot-green { background: var(--emerald); }
+
+.terminal-title {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
+.terminal-log {
+  color: var(--text-muted);
+  height: 70px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.terminal-log div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.terminal-log div.highlight {
+  color: var(--blue-light);
+}
+
+.loader-bar-wrap {
+  margin-top: 1rem;
+  height: 4px;
+  background: var(--slate-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.loader-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--blue-accent), var(--blue-light));
+  border-radius: 99px;
+  box-shadow: 0 0 12px var(--blue-light);
+  transition: width 0.15s ease;
+}
+
+.loader-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* --------------------------------------------------------------------------
+   5. NAVIGATION & TOP BAR
+   -------------------------------------------------------------------------- */
+header#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 800;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(6, 8, 13, 0.88);
+  border-bottom: 1px solid var(--slate-border);
+  transition: background var(--transition-fast);
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-badge {
+  background: var(--blue-accent);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.nav-links a:hover {
+  color: var(--text-white);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.currency-toggle {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  color: var(--text-muted);
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.currency-toggle:hover {
+  border-color: var(--blue-light);
+  color: var(--text-white);
+}
+
+/* --------------------------------------------------------------------------
+   6. BUTTONS & INTERACTIVE CONTROLS
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+}
+
+.btn-primary {
+  background: var(--blue-accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--blue-accent-hover);
+  box-shadow: 0 4px 16px var(--blue-glow);
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-white);
+  border-color: var(--slate-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--slate-border-light);
+  background: var(--bg-card);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--slate-border);
+}
+
+.btn-outline:hover {
+  border-color: var(--blue-light);
+  color: var(--text-white);
+}
+
+/* --------------------------------------------------------------------------
+   7. HERO SECTION & 3D GLOBE CONTAINER
+   -------------------------------------------------------------------------- */
+.hero-section {
+  padding: 7.5rem 1.5rem 3.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: 88vh;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 99px;
+  font-size: 0.75rem;
+  color: var(--blue-light);
+  font-family: var(--font-code);
+  margin-bottom: 1.25rem;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 8px var(--emerald);
+}
+
+.hero-title {
+  font-size: clamp(2.25rem, 3.8vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.hero-title span {
+  background: linear-gradient(135deg, #fff 40%, var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 550px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.globe-card {
+  background: radial-gradient(circle at center, rgba(30, 41, 59, 0.3) 0%, transparent 75%);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-xl);
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+#globe-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+#globe-canvas:active {
+  cursor: grabbing;
+}
+
+.globe-hud {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(12, 16, 26, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--slate-border);
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  gap: 0.5rem;
+}
+
+.globe-nodes {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.node-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--slate-border);
+  color: var(--text-muted);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.72rem;
+  transition: all var(--transition-fast);
+}
+
+.node-btn:hover, .node-btn.active {
+  color: #fff;
+  border-color: var(--blue-light);
+  background: rgba(37, 99, 235, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   8. STATUS & TELEMETRY STRIP
+   -------------------------------------------------------------------------- */
+.status-strip {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.telemetry-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.telemetry-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-light);
+  font-family: var(--font-code);
+  font-weight: bold;
+}
+
+.telemetry-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-family: var(--font-code);
+}
+
+.telemetry-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   9. INTERACTIVE PTERODACTYL TERMINAL SIMULATOR
+   -------------------------------------------------------------------------- */
+.hud-panel {
+  background: rgba(12, 16, 26, 0.95);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-sm);
+}
+
+.terminal-interactive {
+  background: var(--bg-terminal);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  height: 340px;
+  overflow: hidden;
+}
+
+.terminal-topbar {
+  background: var(--bg-terminal-bar);
+  padding: 0.5rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--slate-border);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.terminal-screen {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.terminal-screen div {
+  margin-bottom: 0.25rem;
+}
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  background: #080b12;
+  border-top: 1px solid var(--slate-border);
+  padding: 0.5rem 0.85rem;
+  gap: 0.5rem;
+}
+
+.terminal-prompt-user {
+  color: var(--emerald);
+  font-weight: 600;
+}
+
+.terminal-prompt-symbol {
+  color: var(--blue-light);
+}
+
+.terminal-cli-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   10. CATALOG & FILTER TOOLBAR
+   -------------------------------------------------------------------------- */
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.section-head {
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-tag {
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: var(--blue-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.catalog-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tab-btn:hover {
+  color: var(--text-white);
+  border-color: var(--slate-border-light);
+}
+
+.tab-btn.active {
+  background: var(--blue-accent);
+  color: #fff;
+  border-color: var(--blue-light);
+  box-shadow: 0 4px 12px var(--blue-glow);
+}
+
+.search-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1rem;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+  width: min(100%, 280px);
+  transition: border-color var(--transition-fast);
+}
+
+.search-box:focus {
+  border-color: var(--blue-light);
+}
+
+/* --------------------------------------------------------------------------
+   11. PRODUCT CARDS & PTERODACTYL EMBEDDED UI
+   -------------------------------------------------------------------------- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.product-card:hover {
+  border-color: var(--slate-border-light);
+  transform: translateY(-4px);
+}
+
+.product-image {
+  position: relative;
+  height: 195px;
+  background: #000;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+  transition: transform var(--transition-smooth), opacity var(--transition-smooth);
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.ptero-preview {
+  width: 100%;
+  height: 100%;
+  background: #0d121c;
+  padding: 1rem;
+  font-family: var(--font-code);
+  font-size: 0.72rem;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--slate-border);
+}
+
+.ptero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 0.4rem;
+}
+
+.ptero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.stat-box {
+  background: #141b2a;
+  padding: 0.4rem;
+  border-radius: 4px;
+  border: 1px solid #232f48;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: #64748b;
+}
+
+.stat-val {
+  font-weight: 600;
+  color: var(--blue-light);
+}
+
+.ptero-console {
+  background: #080a10;
+  border-radius: 4px;
+  padding: 0.4rem;
+  color: var(--emerald);
+  font-size: 0.68rem;
+}
+
+.product-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--blue-light);
+  margin-bottom: 0.75rem;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.product-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.product-specs {
+  list-style: none;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid var(--slate-border);
+  padding-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.product-specs li {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.product-specs li::before {
+  content: '✓';
+  color: var(--blue-light);
+  font-weight: bold;
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--slate-border);
+  padding-top: 1rem;
+}
+
+.price-tag {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-caption {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: var(--font-code);
+}
+
+.price-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.price-val small {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-left: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   12. LOOKING GLASS & DIAGNOSTICS
+   -------------------------------------------------------------------------- */
+.looking-glass-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.lg-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  font-family: var(--font-code);
+  color: var(--text-muted);
+}
+
+.form-select, .form-input {
+  background: var(--bg-card);
+  border: 1px solid var(--slate-border);
+  color: #fff;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  outline: none;
+  font-family: var(--font-code);
+  transition: border-color var(--transition-fast);
+}
+
+.form-select:focus, .form-input:focus {
+  border-color: var(--blue-light);
+}
+
+.terminal-window {
+  background: #090c13;
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-out {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   13. CLI BUILDER TOOLKIT
+   -------------------------------------------------------------------------- */
+.cli-generator {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+}
+
+.cli-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.cli-box {
+  background: #090c13;
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: var(--blue-light);
+  overflow-x: auto;
+}
+
+/* --------------------------------------------------------------------------
+   14. RESOURCE CALCULATOR
+   -------------------------------------------------------------------------- */
+.calc-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.calc-slider-group {
+  margin-bottom: 1.5rem;
+}
+
+.calc-slider-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+input[type=range] {
+  width: 100%;
+  height: 6px;
+  background: var(--slate-border);
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--blue-light);
+  transition: transform var(--transition-fast);
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.calc-summary-box {
+  background: var(--bg-card);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  text-align: center;
+}
+
+.calc-summary-label {
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-bottom: 0.5rem;
+}
+
+.calc-total-val {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   15. FAQ ACCORDION
+   -------------------------------------------------------------------------- */
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.faq-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.faq-item:hover {
+  border-color: var(--slate-border-light);
+}
+
+.faq-q {
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-a {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  display: none;
+}
+
+.faq-item.active .faq-a {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   16. INVOICE MODAL & TOAST NOTIFICATION
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--slate-border);
+  border-radius: var(--radius-lg);
+  max-width: 550px;
+  width: 100%;
+  padding: 2rem;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--slate-border);
+  padding-bottom: 1rem;
+}
+
+.modal-title {
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.modal-ref {
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.modal-body-list {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.modal-row-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--slate-border);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.modal-total-num {
+  font-size: 1.25rem;
+  color: var(--blue-light);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--blue-light);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-family: var(--font-code);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 99999;
+}
+
+#toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   17. FOOTER
+   -------------------------------------------------------------------------- */
+footer {
+  border-top: 1px solid var(--slate-border);
+  background: var(--bg-surface);
+  padding: 3rem 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.footer-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  font-weight: 800;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   18. RESPONSIVE BREAKPOINTS (MOBILE & TABLET)
+   -------------------------------------------------------------------------- */
+@media (max-width: 968px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding-top: 6rem;
+  }
+
+  .globe-card {
+    height: 420px;
+  }
+
+  .status-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .looking-glass-card {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .calc-card {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-container {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .cli-generator {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .globe-hud {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+}
